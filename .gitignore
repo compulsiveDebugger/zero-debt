@@ -1,0 +1,74 @@
+# --- Secrets & local config ---
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+secrets/
+config/local.yaml
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+.eggs/
+build/
+dist/
+.coverage
+.coverage.*
+htmlcov/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.tox/
+.venv/
+venv/
+.python-version
+
+# --- Node / Angular ---
+node_modules/
+web/dist/
+web/.angular/
+web/coverage/
+*.tsbuildinfo
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# --- Docker ---
+*.pid
+
+# --- IDE / editor ---
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# --- Workspaces (per-run cloned repos) ---
+workspaces/
+/var/lib/zero-debt/
+
+# --- Build artifacts ---
+*.log
+*.tmp
+*.bak
+.cache/
+
+# --- Coverage / test output ---
+junit*.xml
+coverage*.xml
+test-results/
+
+# --- OpenAPI generated client (regenerated; do not commit modifications) ---
+# Note: the *checked-in* generated client lives at web/src/app/core/api/generated/.
+# That path IS committed; CI verifies it's in sync. Local regeneration scratch:
+web/src/app/core/api/.scratch/
+
+# --- Local LLM caches / fixtures ---
+.llm-cache/
+tests/.replay-recordings.local/

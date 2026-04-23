@@ -1,0 +1,29 @@
+# EditorConfig — https://editorconfig.org
+# Single source of truth for whitespace conventions across editors.
+
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+indent_style = space
+indent_size = 2
+
+[*.{py,pyi}]
+indent_size = 4
+max_line_length = 100
+
+[*.{ts,tsx,js,jsx,html,scss,css,json,yml,yaml}]
+indent_size = 2
+
+[*.md]
+trim_trailing_whitespace = false   # markdown trailing-spaces have semantic meaning (line break)
+
+[Makefile]
+indent_style = tab
+
+[*.{java,rs,go}]
+indent_size = 4
+max_line_length = 120
