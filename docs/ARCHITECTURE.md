@@ -328,9 +328,9 @@ class ZeroDebtState(TypedDict, total=False):
 | `clone_or_fetch_repo` | Clone or `git fetch` | Yes | `GitTool`, `GitHubTool` |
 | `build_repo_outline` | Run RIL indexers | Yes | `FSTool`, `LanguageDetector`, `ManifestParser` |
 | `phase_router` | Branch on `active_phase` | No | — |
-| `post_phase_normalize` | Coerce `phase_output` for delivery | No | — |
+| `post_phase_normalize` | Reads **only** `phase_output["delivery_required"]` (bool, set by every subgraph terminal node) to drive the delivery gate; no phase-specific logic | No | — |
 | `commit_and_push_branch` | Create branch, commit, push | Yes | `GitTool`, `GitHubTool` |
-| `open_pull_request` | Open PR with templated body | Yes | `GitHubTool` |
+| `open_pull_request` | Open PR; selects template via `config.github.pr_template_paths[active_phase]` | Yes | `GitHubTool`, `ReportTool` |
 | `generate_summary_report` | Human + JSON report | No | `ReportTool` |
 | `emit_structured_log` | JSON-log terminal state to stdout + MongoDB | No | `StructLogger`, `TelemetrySink` |
 | `fail_fast_handler` | Capture error, mark `status=FAILED` | No | — |
@@ -620,7 +620,12 @@ vector_store:
 github:
   api_base: https://api.github.com
   allow_default_branch: false
-  pr_template_path: templates/pr_body.md.j2
+  pr_template_paths:                              # keyed by AgentPhase value; adding a phase = adding one entry here
+    sonar_fix:      templates/pr_body_sonar_fix.md.j2
+    unit_test_gen:  templates/pr_body_unit_test_gen.md.j2
+    code_review:    templates/pr_body_code_review.md.j2
+    pr_fix:         templates/pr_body_pr_fix.md.j2
+    e2e_test_gen:   templates/pr_body_e2e_test_gen.md.j2
 
 phases:
   sonar_fix:

@@ -49,7 +49,7 @@ flowchart TD
 | 7 | `validate_patch` | Multi-gate: (a) `patch --dry-run` clean, (b) AST parses, (c) lint doesn't regress (delta), (d) optional compile via `config.validate_with_compile`, (e) diff overlaps issue line ±3. | `phase_input.proposal`, working tree | `phase_input.validation` |
 | 8 | `apply_patch` | Write patch to working tree. On failure, roll back file to HEAD, mark issue skipped. | `phase_input.proposal` (if valid) | working tree (side effect), `phase_output.applied` |
 | 9 | `loop_controller` | Increment `phase_iteration`. Abort on `phase_iteration >= max_issues_per_run × 2` or consecutive-failure threshold. | `phase_input.ranked_files`, `phase_iteration` | `phase_iteration` |
-| 10 | `summarize_fixes` | Per-issue disposition table, token usage, duration, final `status`. | `phase_output.applied`, skipped lists | `phase_output.summary`, `status` |
+| 10 | `summarize_fixes` | Per-issue disposition table, token usage, duration, final `status`. Sets `phase_output["delivery_required"] = len(applied) > 0` for the shared `post_phase_normalize` gate. | `phase_output.applied`, skipped lists | `phase_output.summary`, `status`, `phase_output["delivery_required"]` |
 
 ## 3. Data Contracts
 
